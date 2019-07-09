@@ -24,17 +24,13 @@ function collide(arena, player) {
   const [m, o] = [player.matrix, player.pos];
   for (let y = 0; y < m.length; ++y) {
     for (let x = 0; x < m[y].length; ++x) {
-      if (m[y][x] !== 0 &&
-        (arena[y + o.y] &&
-          arena[y + o.y][x + o.x]) !== 0) {
+      if (m[y][x] !== 0 && (arena[y + o.y] && arena[y + o.y][x + o.x]) !== 0) {
         return true;
       }
     }
   }
   return false;
 }
-
-
 
 function createMatrix(w, h) {
   const matrix = [];
@@ -45,50 +41,21 @@ function createMatrix(w, h) {
 }
 
 function createPiece(type) {
-  if (type === 'T') {
-    return [
-      [0, 0, 0],
-      [1, 1, 1],
-      [0, 1, 0],
-    ];
-  } else if (type === 'O') {
-    return [
-      [2, 2],
-      [2, 2],
-    ];
-  } else if (type === 'L') {
-    return [
-      [0, 3, 0],
-      [0, 3, 0],
-      [0, 3, 3],
-    ];
-  } else if (type === 'J') {
-    return [
-      [0, 4, 0],
-      [0, 4, 0],
-      [4, 4, 0],
-    ];
-  } else if (type === 'I') {
-    return [
-      [0, 5, 0, 0],
-      [0, 5, 0, 0],
-      [0, 5, 0, 0],
-      [0, 5, 0, 0],
-    ];
-  } else if (type === 'S') {
-    return [
-      [0, 6, 6],
-      [6, 6, 0],
-      [0, 0, 0],
-    ];
-  } else if (type === 'Z') {
-    return [
-      [7, 7, 0],
-      [0, 7, 7],
-      [0, 0, 0],
-    ];
+  if (type === "T") {
+    return [[0, 0, 0], [1, 1, 1], [0, 1, 0]];
+  } else if (type === "O") {
+    return [[2, 2], [2, 2]];
+  } else if (type === "L") {
+    return [[0, 3, 0], [0, 3, 0], [0, 3, 3]];
+  } else if (type === "J") {
+    return [[0, 4, 0], [0, 4, 0], [4, 4, 0]];
+  } else if (type === "I") {
+    return [[0, 5, 0, 0], [0, 5, 0, 0], [0, 5, 0, 0], [0, 5, 0, 0]];
+  } else if (type === "S") {
+    return [[0, 6, 6], [6, 6, 0], [0, 0, 0]];
+  } else if (type === "Z") {
+    return [[7, 7, 0], [0, 7, 7], [0, 0, 0]];
   }
-
 }
 
 function drawMatrix(matrix, offset) {
@@ -112,8 +79,6 @@ function draw() {
   });
   drawMatrix(player.matrix, player.pos);
 }
-
-
 
 function merge(arena, player) {
   player.matrix.forEach((row, y) => {
@@ -146,9 +111,10 @@ function playerMove(dir) {
 
 function playerReset() {
   const pieces = "ILJOTSZ";
-  player.matrix = createPiece(pieces[pieces.length * Math.random() | 0]);
+  player.matrix = createPiece(pieces[(pieces.length * Math.random()) | 0]);
   player.pos.y = 0;
-  player.pos.x = (arena[0].length / 2 | 0) - (player.matrix[0].length / 2 | 0);
+  player.pos.x =
+    ((arena[0].length / 2) | 0) - ((player.matrix[0].length / 2) | 0);
   if (collide(arena, player)) {
     arena.forEach(row => row.fill(0));
     player.score = 0;
@@ -174,13 +140,7 @@ function playerRotate(dir) {
 function rotate(matrix, dir) {
   for (let y = 0; y < matrix.length; ++y) {
     for (let x = 0; x < y; ++x) {
-      [
-        matrix[x][y],
-        matrix[y][x],
-      ] = [
-        matrix[y][x],
-        matrix[x][y],
-      ];
+      [matrix[x][y], matrix[y][x]] = [matrix[y][x], matrix[x][y]];
     }
   }
   if (dir > 0) {
@@ -191,7 +151,7 @@ function rotate(matrix, dir) {
 }
 
 let dropCounter = 0;
-let dropInterval = 1000;
+let dropInterval = 300;
 
 let lastTime = 0;
 
@@ -210,18 +170,18 @@ function update(time = 0) {
 }
 
 function updateScore() {
-  document.getElementById('score').innerText = player.score;
+  document.getElementById("score").innerText = player.score;
 }
 
 const colors = [
   null,
-  '#FF0D72',
-  '#0DC2FF',
-  '#0DFF72',
-  '#F538FF',
-  '#FF8E0D',
-  '#FFE138',
-  '#3877FF',
+  "#FF0D72",
+  "#0DC2FF",
+  "#0DFF72",
+  "#F538FF",
+  "#FF8E0D",
+  "#FFE138",
+  "#3877FF"
 ];
 
 const arena = createMatrix(12, 20);
@@ -232,9 +192,8 @@ const player = {
     y: 0
   },
   matrix: null,
-  score: 0,
-
-}
+  score: 0
+};
 
 document.addEventListener("keydown", event => {
   if (event.keyCode === 37) {
